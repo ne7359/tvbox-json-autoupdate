@@ -1,39 +1,58 @@
-﻿import re
-import datetime
-import requests
-import json
-import urllib3
+import re  # 导入正则表达式模块
+import datetime  # 导入日期时间模块
+import requests  # 导入HTTP请求模块
+import json  # 导入JSON模块，用于JSON文件的读写
+import urllib3  # 导入一个用于打开HTTP连接的库
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)  # 禁用不安全请求警告
+
+# 以读取模式打开url.json文件, 加载文件内容到urlJson变量
 with open('./url.json', 'r', encoding='utf-8') as f:
     urlJson = json.load(f)
-nameList = []
+
+nameList = []  # 初始化一个空的列表，用来存放名字
+
+# 初始化重定向列表，包含不同的代理服务URLs
 reList = ["https://ghproxy.net/https://raw.githubusercontent.com", "https://raw.kkgithub.com",
           "https://gcore.jsdelivr.net/gh", "https://mirror.ghproxy.com/https://raw.githubusercontent.com",
           "https://github.moeyy.xyz/https://raw.githubusercontent.com", "https://fastly.jsdelivr.net/gh"]
+
+# 对应上面的reList，标记是否需要对URL进行特殊处理
 reRawList = [False, False,
           True, False,
           False, True]
+
+# 遍历urlJson中的每一个条目
 for item in urlJson:
-    urlReq = requests.get(item["url"], verify=False)
+    urlReq = requests.get(item["url"], verify=False)  # 发送请求获取数据，关闭SSL认证
+    # 遍历代理服务URLs
     for reI in range(len(reList)):
-        urlName = item["name"]
-        urlPath = item["path"]
-        reqText = urlReq.text
+        urlName = item["name"]  # 获取JSON条目中的"name"
+        urlPath = item["path"]  # 获取JSON条目中的"path"
+        reqText = urlReq.text  # 获取请求的文本内容
+
+        # 如果urlName不是"gaotianliuyun_0707"，则替换文本中的路径标识
         if urlName != "gaotianliuyun_0707":
             reqText = reqText.replace("'./", "'" + urlPath) \
                 .replace('"./', '"' + urlPath)
+        # 根据reRawList中的标记决定是否替换URL路径中的'/raw/'部分
         if reRawList[reI]:
             reqText = reqText.replace("/raw/", "@")
         else:
             reqText = reqText.replace("/raw/", "/")
+        # 替换所有GitHub链接为对应的代理服务URLs
         reqText = reqText.replace("'https://github.com", "'" + reList[reI]) \
             .replace('"https://github.com', '"' + reList[reI]) \
             .replace("'https://raw.githubusercontent.com", "'" + reList[reI]) \
             .replace('"https://raw.githubusercontent.com', '"' + reList[reI])
+        
+        # 打开对应文件，写入修改后的请求文本内容
         fp = open("./tv/" + str(reI) + "/" + urlName + ".json", "w+", encoding='utf-8')
         fp.write(reqText)
+
+# 获取当前的日期和时间
 now = datetime.datetime.now()
+# 打开README.md文件，并设置编码格式为'utf-8'
 fp = open('README.md', "w+", encoding='utf-8')
 fp.write("# 提示\n\n")
 fp.write("感谢各位大佬的无私奉献.\n\n")
