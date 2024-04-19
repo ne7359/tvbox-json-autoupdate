@@ -2,8 +2,7 @@ name: Python application
 on:
   push:
   schedule:
-    - cron: '0 21 * * *'
-
+    - cron: '0 21 2-30/2 * *' # 每个月的偶数日的 21:00 (UTC)
 jobs:
   build:
     runs-on: ubuntu-latest
