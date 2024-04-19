@@ -45,4 +45,4 @@ jobs:
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
-          git push https://GITEE_TOKEN@gitee.com/MINGERTAI/tvbox.git HEAD:master --force
+          git push https://${GITEE_TOKEN}@gitee.com/MINGERTAI/tvbox.git HEAD:master --force
