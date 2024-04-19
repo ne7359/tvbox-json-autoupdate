@@ -46,4 +46,4 @@ jobs:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
           # 使用shell变量的方式替换
-          git push "https://${GITEE_TOKEN}@gitee.com/MINGERTAI/tvbox-json-autoupdate.git" HEAD:master --force
+          git push "https://0e996d22f2c5659e81468f89a2f59c07@gitee.com/MINGERTAI/tvbox-json-autoupdate.git" HEAD:master --force
