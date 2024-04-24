@@ -13,7 +13,7 @@ with open('./url.json', 'r', encoding='utf-8') as f:
 nameList = []  # 初始化一个空的列表，用来存放名字
 
 # 初始化重定向列表，包含不同的代理服务URLs
-reList = ["https://ghproxy.net/https://raw.githubusercontent.com", "https://raw.kkgithub.com",
+reList = ["https://ghproxy.net/https://raw.githubusercontent.com", "https://raw.kkgithub.com", "https://github.com/cyao2q/files",
           "https://gcore.jsdelivr.net/gh", "https://mirror.ghproxy.com/https://raw.githubusercontent.com",
           "https://github.moeyy.xyz/https://raw.githubusercontent.com", "https://fastly.jsdelivr.net/gh"]
 
